@@ -1,0 +1,24 @@
+{
+  "name": "dynamicidserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MobasshirAjaz/DynamicIDServer.git"
+  },
+  "author": "Mobasshir Ajaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MobasshirAjaz/DynamicIDServer/issues"
+  },
+  "homepage": "https://github.com/MobasshirAjaz/DynamicIDServer#readme",
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.5"
+  }
+}
