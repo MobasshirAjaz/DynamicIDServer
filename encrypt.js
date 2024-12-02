@@ -19,5 +19,6 @@ function encrypt(obj) {
   console.log(combined);
   return combined;
 }
-
+const testObj = { name: "Mobasshir", roll: 22052727, year: 4 };
+encrypt(testObj);
 exports.encrypt;

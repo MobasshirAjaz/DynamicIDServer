@@ -1,10 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
 app.listen(3000, () => {
   console.log("Listening on port 3000.");
 });
 
+app.use(cors());
 app.use(express.json());
 
 //Database connection. Change according to the database you are using.
@@ -26,20 +28,31 @@ con.connect(function (err) {
 //Database connected.
 
 app.post("/entry", (req, res) => {
+  console.log("request received");
   roll = req.body.roll;
   con.query(`select inside from user where roll=${roll}`, (err, result) => {
+    if (result.length == 0) {
+      console.log("sent invalid");
+      res.json({ status: "invalid" });
+    }
     if (err) throw err;
-
-    if (!result[0].inside) {
-      con.query(
-        `update user set inside=1 where roll=${roll}`,
-        (err, result) => {
-          if (err) throw err;
-        }
-      );
-      res.send("allow");
-    } else {
-      res.send("dont_allow");
+    console.log(result);
+    console.log(roll);
+    try {
+      if (!result[0].inside) {
+        con.query(
+          `update user set inside=1 where roll=${roll}`,
+          (err, result) => {
+            if (err) throw err;
+          }
+        );
+        res.json({ status: "allow" });
+      } else {
+        res.json({ status: "dont_allow" });
+      }
+    } catch (err) {
+      console.log("invalid roll no.");
+      console.log(err);
     }
   });
 });
@@ -47,18 +60,28 @@ app.post("/entry", (req, res) => {
 app.post("/exit", (req, res) => {
   roll = req.body.roll;
   con.query(`select inside from user where roll=${roll}`, (err, result) => {
+    if (result.length == 0) {
+      console.log("sent invalid");
+      res.json({ status: "invalid" });
+    }
     if (err) throw err;
-
-    if (result[0].inside) {
-      con.query(
-        `update user set inside=0 where roll=${roll}`,
-        (err, result) => {
-          if (err) throw err;
-        }
-      );
-      res.send("allow");
-    } else {
-      res.send("dont_allow");
+    console.log(result);
+    console.log(roll);
+    try {
+      if (result[0].inside) {
+        con.query(
+          `update user set inside=0 where roll=${roll}`,
+          (err, result) => {
+            if (err) throw err;
+          }
+        );
+        res.json({ status: "allow" });
+      } else {
+        res.json({ status: "dont_allow" });
+      }
+    } catch (err) {
+      console.log("invalid roll no.");
+      console.log(err);
     }
   });
 });
